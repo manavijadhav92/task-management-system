@@ -227,3 +227,4 @@ entirely to you, as requested.
 ## Docker Setup
 
 The application can be run using Docker Compose with separate containers for the frontend, backend, and MongoDB.
+Git conflict practice - feature branch
