@@ -1,0 +1,9 @@
+.task-filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+@media (max-width: 720px) {
+  .task-filters { grid-template-columns: 1fr; }
+}

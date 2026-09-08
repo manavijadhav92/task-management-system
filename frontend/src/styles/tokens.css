@@ -1,0 +1,50 @@
+/*
+  Design tokens for the Task Management System UI.
+
+  Palette: cool paper background with deep ink text, a single indigo
+  accent reserved for primary actions/links, and desaturated status
+  colors used only on small indicators (not heavy badge pills).
+  A monospace face is used functionally for dates/timestamps, not as
+  decoration.
+*/
+:root {
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-border: #e1e4ea;
+  --color-ink: #1b1f27;
+  --color-ink-muted: #5b6270;
+  --color-ink-faint: #8a90a0;
+
+  --color-accent: #3454d1;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #eaefff;
+
+  --color-danger: #b3432b;
+  --color-danger-soft: #fbeae6;
+  --color-success: #2f7a53;
+  --color-success-soft: #e7f4ec;
+
+  --status-todo: #5b6270;
+  --status-in-progress: #3454d1;
+  --status-completed: #2f7a53;
+
+  --priority-low: #5b7a63;
+  --priority-medium: #a5760f;
+  --priority-high: #b3432b;
+
+  --font-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  --shadow-card: 0 1px 2px rgba(27, 31, 39, 0.06);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+}

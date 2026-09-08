@@ -1,0 +1,9 @@
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+.auth-card { width: 100%; max-width: 380px; padding: var(--space-6); }
+.auth-brand { font-weight: 700; font-size: 1.2rem; margin-bottom: var(--space-5); }

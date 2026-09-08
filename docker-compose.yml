@@ -1,0 +1,27 @@
+services:
+
+  mongodb:
+    image: mongo:7
+    container_name: task-manager-mongodb
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: task-manager-backend
+    ports:
+      - "8000:8000"
+    environment:
+      MONGO_URI: mongodb://mongodb:27017
+      MONGO_DB_NAME: intern_db
+
+  frontend:
+    build: ./frontend
+    container_name: task-manager-frontend
+    ports:
+      - "8080:80"
+
+volumes:
+  mongodb_data:

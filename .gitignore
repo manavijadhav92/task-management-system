@@ -1,0 +1,26 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/**/*.pyc
+
+# Environment files
+.env
+backend/.env
+frontend/.env
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# MongoDB backup
+mongodb_backup/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store

@@ -1,0 +1,14 @@
+.dialog-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(27, 31, 39, 0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50;
+  padding: var(--space-4);
+}
+.dialog {
+  padding: var(--space-5);
+  max-width: 380px;
+  width: 100%;
+}
+.dialog p { color: var(--color-ink-muted); margin: var(--space-2) 0 var(--space-4); }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
