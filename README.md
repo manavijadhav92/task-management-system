@@ -222,3 +222,8 @@ What's left for you to do manually, as planned:
 
 Nothing above has been implemented in this repository - it's scoped
 entirely to you, as requested.
+
+
+## Docker Setup
+
+The application can be run using Docker Compose with separate containers for the frontend, backend, and MongoDB.
