@@ -50,6 +50,10 @@ class TaskCreateTests(TaskTestBase):
         resp = self.create_task(title="   ")
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_create_task_title_must_have_at_least_3_characters(self):
+        resp = self.create_task(title="Hi")
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_create_task_invalid_priority_rejected(self):
         resp = self.create_task(priority="URGENT")
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
@@ -214,9 +218,10 @@ class TaskListFilterSearchSortPaginationTests(TaskTestBase):
 class TaskStatsTests(TaskTestBase):
     def setUp(self):
         super().setUp()
-        self.create_task(title="A", status="TODO", priority="HIGH")
-        self.create_task(title="B", status="IN_PROGRESS", priority="LOW")
-        self.create_task(title="C", status="COMPLETED", priority="HIGH")
+        self.create_task(title="Task A", status="TODO", priority="HIGH")
+        self.create_task(title="Task B", status="IN_PROGRESS", priority="LOW")
+        self.create_task(title="Task C", status="COMPLETED", priority="HIGH")
+        
 
     def test_stats_requires_auth(self):
         resp = self.client.get("/api/tasks/stats/")

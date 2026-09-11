@@ -10,7 +10,7 @@ PRIORITY_CHOICES = ["LOW", "MEDIUM", "HIGH"]
 
 
 class TaskWriteSerializer(serializers.Serializer):
-    title = serializers.CharField(max_length=200, allow_blank=False)
+    title = serializers.CharField(max_length=200, min_length=3, allow_blank=False)
     description = serializers.CharField(allow_blank=True, required=False, default="")
     status = serializers.ChoiceField(choices=STATUS_CHOICES, default="TODO")
     priority = serializers.ChoiceField(choices=PRIORITY_CHOICES, default="MEDIUM")
