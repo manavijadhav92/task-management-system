@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from bson import ObjectId
 from rest_framework import status
 
@@ -40,6 +42,22 @@ class TaskCreateTests(TaskTestBase):
         resp = self.client.post("/api/tasks/", {"title": "No auth"})
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    ##TDD— Description maximum 1000 characters
+    def test_create_task_description_max_1000_characters(self):
+        description = "A" * 1001
+
+        resp = self.create_task(description=description)
+
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+    ##TDD  — Due date cannot be in the past
+    def test_create_task_past_due_date_rejected(self):
+        yesterday = (date.today() - timedelta(days=1)).isoformat()
+
+        resp = self.create_task(due_date=yesterday)
+
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+
     def test_create_task_success(self):
         resp = self.create_task()
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
@@ -71,7 +89,7 @@ class TaskCreateTests(TaskTestBase):
 
         from apps.common.mongo import tasks_collection
 
-        resp = self.create_task(due_date="2026-09-10")
+        resp = self.create_task(due_date="2026-09-20")
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
 
         stored = tasks_collection().find_one({"_id": ObjectId(resp.data["data"]["id"])})
@@ -84,6 +102,18 @@ class TaskRetrieveUpdateDeleteTests(TaskTestBase):
         super().setUp()
         self.task_id = self.create_task().data["data"]["id"]
 
+    ## TDD for User cannot update another user's task
+ 
+    def test_other_user_cannot_update_task(self):
+        resp = self.client.patch(
+        f"/api/tasks/{self.task_id}/",
+        {"title": "Hacked task"},
+        content_type="application/json",
+        **self.other_auth_header,
+    )
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    ## end the TDD for User cannot update another user's task
     def test_retrieve_task(self):
         resp = self.client.get(f"/api/tasks/{self.task_id}/", **self.auth_header)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)

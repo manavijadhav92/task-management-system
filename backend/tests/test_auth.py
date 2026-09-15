@@ -1,7 +1,10 @@
+import jwt
+from datetime import datetime, timedelta, timezone
+
+from django.conf import settings
 from rest_framework import status
 
 from .base import MongoBackedAPITestCase
-
 
 class RegistrationTests(MongoBackedAPITestCase):
     def test_register_success(self):
@@ -73,15 +76,53 @@ class MeAndLogoutTests(MongoBackedAPITestCase):
         super().setUp()
         self.client.post(
             "/api/auth/register/",
-            {"name": "Manavi", "email": "manavi@example.com", "password": "Passw0rd1"},
+            {
+                "name": "Manavi",
+                "email": "manavi@example.com",
+                "password": "Passw0rd1",
+            },
         )
+
         login = self.client.post(
             "/api/auth/login/",
-            {"email": "manavi@example.com", "password": "Passw0rd1"},
+            {
+                "email": "manavi@example.com",
+                "password": "Passw0rd1",
+            },
         )
+
         self.access = login.data["data"]["access"]
         self.refresh = login.data["data"]["refresh"]
 
+    def test_me_with_expired_access_token(self):
+        payload = jwt.decode(
+            self.access,
+            settings.JWT_SECRET_KEY,
+            algorithms=[settings.JWT_ALGORITHM],
+            options={"verify_exp": False},
+        )
+
+        expired_token = jwt.encode(
+            {
+                "user_id": payload["user_id"],
+                "type": "access",
+                "exp": datetime.now(timezone.utc) - timedelta(minutes=1),
+            },
+            settings.JWT_SECRET_KEY,
+            algorithm=settings.JWT_ALGORITHM,
+        )
+
+        resp = self.client.get(
+            "/api/auth/me/",
+            HTTP_AUTHORIZATION=f"Bearer {expired_token}",
+        )
+
+        self.assertEqual(
+            resp.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )
+        ##end ###
+     
     def test_me_requires_auth(self):
         resp = self.client.get("/api/auth/me/")
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
